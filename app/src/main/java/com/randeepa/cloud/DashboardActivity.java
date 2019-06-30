@@ -2,7 +2,7 @@ package com.randeepa.cloud;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,7 +32,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Dashboard extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
 
@@ -48,14 +48,31 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        utils = new Utils();
+
+        if(utils.isInternetAvailable(getApplicationContext()) == false) {
+            Toast.makeText(getApplicationContext(), "You are not connected to the internet. Please connect to internet and sign in", Toast.LENGTH_SHORT).show();
+            Intent main = new Intent(getApplicationContext(), MainActivity.class);
+            main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(main);
+            finish();
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        if(savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+        }
 
         userDetails = getSharedPreferences("user_details", MODE_PRIVATE);
 
@@ -63,7 +80,6 @@ public class Dashboard extends AppCompatActivity {
 
         validateAPIKey(userDetails.getString("username", null), userDetails.getString("api", null));
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
         TextView welcomeGreeting = (TextView) headerView.findViewById(R.id.welcome_greeting);
@@ -74,6 +90,37 @@ public class Dashboard extends AppCompatActivity {
         email.setText(userDetails.getString("email", null));
 
         new DownloadImageTask(profilePic).execute(userDetails.getString("profile_pic", null));
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch(menuItem.getItemId()) {
+            case R.id.nav_dashboard:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashboardFragment()).commit();
+                break;
+            case R.id.nav_report_sale:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ReportSaleFragment()).commit();
+                break;
+            case R.id.nav_sales_banking:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SalesBankingFragment()).commit();
+                break;
+            case R.id.nav_spare_parts_banking:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SparePartsBankingFragment()).commit();
+                break;
+            case R.id.nav_organizational_visit:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OrganizationalVisitFragment()).commit();
+                break;
+            case R.id.nav_field_visit:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FieldVisitFragment()).commit();
+                break;
+            case R.id.nav_claim_expense:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ClaimExpenseFragment()).commit();
+                break;
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+
+        return true;
     }
 
     @Override
@@ -111,9 +158,9 @@ public class Dashboard extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("VOLLEY_RESPONSE_ERROR", String.valueOf(error));
+                Log.e("VOLLEY_RESPONSE_ERROR", String.valueOf(error));
                 signOut();
-                Toast.makeText(getApplicationContext(), "System error occurred. Please contact system administrator", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override

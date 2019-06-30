@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group>
         <item android:title="Dashboaord">
             <menu>
                 <item
@@ -27,7 +27,7 @@
                     android:icon="@drawable/ic_bank"
                     android:title="Sales Banking" />
                 <item
-                    android:id="@+id/nav_spareparts_banking"
+                    android:id="@+id/nav_spare_parts_banking"
                     android:icon="@drawable/ic_bank"
                     android:title="Spare Parts Banking" />
             </menu>
