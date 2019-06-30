@@ -22,10 +22,20 @@
             android:text="Date" />
 
         <EditText
-            android:id="@+id/date"
+            android:id="@+id/date_ET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="YYYY-MM-DD"/>
+            android:hint="YYYY-MM-DD" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Showroom/Dealer" />
+
+        <Spinner
+            android:id="@+id/showroom_dealer_SP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
