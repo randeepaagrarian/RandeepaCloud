@@ -2,12 +2,20 @@ package com.randeepa.cloud;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -26,9 +34,10 @@ import java.util.Map;
 
 public class Dashboard extends AppCompatActivity {
 
+    private DrawerLayout drawer;
+
     private SharedPreferences userDetails;
     private Intent mainActivity;
-    private EditText api_ET;
 
     private RequestQueue mQueue;
 
@@ -39,14 +48,42 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
         userDetails = getSharedPreferences("user_details", MODE_PRIVATE);
 
         mQueue = Volley.newRequestQueue(this);
 
         validateAPIKey(userDetails.getString("username", null), userDetails.getString("api", null));
 
-        api_ET = findViewById(R.id.api_ET);
-        api_ET.setText(userDetails.getString("api", null));
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+
+        TextView welcomeGreeting = (TextView) headerView.findViewById(R.id.welcome_greeting);
+        TextView email = (TextView) headerView.findViewById(R.id.email);
+        ImageView profilePic = (ImageView) headerView.findViewById(R.id.profile_pic);
+
+        welcomeGreeting.setText("Hello, " + userDetails.getString("name", null));
+        email.setText(userDetails.getString("email", null));
+
+        new DownloadImageTask(profilePic).execute(userDetails.getString("profile_pic", null));
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            moveTaskToBack(true);
+        }
     }
 
     private void validateAPIKey(final String username, final String api) {
