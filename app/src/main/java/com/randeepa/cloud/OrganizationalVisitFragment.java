@@ -12,6 +12,8 @@ public class OrganizationalVisitFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_organizational_visit, container, false);
+        View organizationalVisit = inflater.inflate(R.layout.fragment_organizational_visit, container, false);
+
+        return organizationalVisit;
     }
 }

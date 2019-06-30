@@ -12,6 +12,8 @@ public class SalesBankingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_sales_banking, container, false);
+        View salesBanking = inflater.inflate(R.layout.fragment_sales_banking, container, false);
+
+        return salesBanking;
     }
 }

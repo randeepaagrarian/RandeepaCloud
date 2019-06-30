@@ -12,6 +12,8 @@ public class ClaimExpenseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_claim_expense, container, false);
+        View claimExpense = inflater.inflate(R.layout.fragment_claim_expense, container, false);
+
+        return claimExpense;
     }
 }
