@@ -3,40 +3,164 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Report Sale"
-            android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Date" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Report Sale"
+                android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/date_ET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="YYYY-MM-DD" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Showroom/Dealer" />
+            <EditText
+                android:id="@+id/date_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="YYYY-MM-DD" />
 
-        <Spinner
-            android:id="@+id/showroom_dealer_SP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Showroom/Dealer" />
 
-    </LinearLayout>
+            <Spinner
+                android:id="@+id/showroom_dealer_SP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Model" />
+
+            <Spinner
+                android:id="@+id/model_SP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chassis Number" />
+
+            <EditText
+                android:id="@+id/chassis_number_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="NLXXXXXX" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price" />
+
+            <EditText
+                android:id="@+id/price_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="349000"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Invoice Number (Optional)" />
+
+            <EditText
+                android:id="@+id/invoice_number_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="INV0001" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Customer Name" />
+
+            <EditText
+                android:id="@+id/customer_name_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="R. A. Nimal Bandara" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Customer Contact Number" />
+
+            <EditText
+                android:id="@+id/customer_contact_number_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="0777777777"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Customer Address" />
+
+            <EditText
+                android:id="@+id/customer_address_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="No: 12/2, Pitakanda Road, Maha Yaya, Kandy" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sale Type" />
+
+            <Spinner
+                android:id="@+id/sale_type_SP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Institute (Optional)" />
+
+            <EditText
+                android:id="@+id/institute_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mercantile Investments &amp; Finance PLC" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Advance" />
+
+            <EditText
+                android:id="@+id/advance_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="349000"
+                android:inputType="number"/>
+
+            <Button
+                android:id="@+id/report_sale_BT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Report sale" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
