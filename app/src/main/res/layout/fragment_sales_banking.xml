@@ -67,6 +67,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Amount" />
+
+            <EditText
+                android:id="@+id/amount_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="349000"
+                android:inputType="number"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Chassis Number" />
 
             <EditText

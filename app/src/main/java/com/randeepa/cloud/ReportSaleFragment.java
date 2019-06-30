@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -132,6 +133,11 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
                 datePickerDialog.show();
                 break;
             case R.id.report_sale_BT:
+
+                if (TextUtils.isEmpty(date_ET.getText().toString())) {
+                    Toast.makeText(getActivity(), "Enter the date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (TextUtils.isEmpty(chassis_number_ET.getText().toString())) {
                     Toast.makeText(getActivity(), "Enter the chassis number", Toast.LENGTH_SHORT).show();

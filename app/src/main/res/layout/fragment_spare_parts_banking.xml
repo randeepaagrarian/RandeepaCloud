@@ -1,12 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Spare Parts Banking"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Spare Parts Banking"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Image" />
+
+            <ImageView
+                android:id="@+id/image_IV"
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/upload" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date" />
+
+            <EditText
+                android:id="@+id/date_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bank" />
+
+            <EditText
+                android:id="@+id/bank_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Sampath Bank PLC" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Branch" />
+
+            <EditText
+                android:id="@+id/branch_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Kaduruwela" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amount" />
+
+            <EditText
+                android:id="@+id/amount_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="349000"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Invoice Number" />
+
+            <EditText
+                android:id="@+id/invoice_number_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="INV0001" />
+
+            <Button
+                android:id="@+id/report_spare_parts_banking_BT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Report spare parts banking" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
