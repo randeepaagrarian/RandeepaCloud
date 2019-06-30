@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.view.Menu;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -30,8 +29,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import com.randeepa.cloud.Utils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userDetails = getSharedPreferences("user_details", MODE_PRIVATE);
 
         if(userDetails.contains("api")) {
-            dashboard = new Intent(getApplicationContext(), Dashboard.class);
+            dashboard = new Intent(getApplicationContext(), DashboardActivity.class);
             startActivity(dashboard);
         }
 
@@ -147,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         userEditor.commit();
 
-                        dashboard = new Intent(getApplicationContext(), Dashboard.class);
+                        dashboard = new Intent(getApplicationContext(), DashboardActivity.class);
                         startActivity(dashboard);
                         Toast.makeText(getApplicationContext(), signinMessage, Toast.LENGTH_SHORT).show();
                     } else {

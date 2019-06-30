@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group>
+        <item android:title="Dashboaord">
+            <menu>
+                <item
+                    android:id="@+id/nav_dashboard"
+                    android:icon="@drawable/ic_home"
+                    android:title="Dashboard" />
+            </menu>
+        </item>
+        <item android:title="Sales">
+            <menu>
+                <item
+                    android:id="@+id/nav_report_sale"
+                    android:icon="@drawable/ic_car"
+                    android:title="Report Sale" />
+            </menu>
+        </item>
+        <item android:title="Banking">
+            <menu>
+                <item
+                    android:id="@+id/nav_sales_banking"
+                    android:icon="@drawable/ic_bank"
+                    android:title="Sales Banking" />
+                <item
+                    android:id="@+id/nav_spare_parts_banking"
+                    android:icon="@drawable/ic_bank"
+                    android:title="Spare Parts Banking" />
+            </menu>
+        </item>
+        <item android:title="Visits">
+            <menu>
+                <item
+                    android:id="@+id/nav_organizational_visit"
+                    android:icon="@drawable/ic_person"
+                    android:title="Organizational Visit" />
+                <item
+                    android:id="@+id/nav_field_visit"
+                    android:icon="@drawable/ic_person"
+                    android:title="Field Visit" />
+            </menu>
+        </item>
+        <item android:title="Expenses">
+            <menu>
+                <item
+                    android:id="@+id/nav_claim_expense"
+                    android:icon="@drawable/ic_money"
+                    android:title="Claim Expense" />
+            </menu>
+        </item>
+    </group>
+
+</menu>
