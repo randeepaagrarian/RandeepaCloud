@@ -3,11 +3,13 @@ package com.randeepa.cloud;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -188,6 +190,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
 
                 EditText contact_no_ET_INQUIRY_TBL = new EditText(getActivity());
                 contact_no_ET_INQUIRY_TBL.setHint("0777777777");
+                contact_no_ET_INQUIRY_TBL.setInputType(InputType.TYPE_CLASS_NUMBER);
 
                 Spinner model_SP_INQUIRY_TBL = new Spinner(getActivity());
 
@@ -242,8 +245,233 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
                     return;
                 }
 
+                if (TextUtils.isEmpty(date_ET.getText().toString())) {
+                    Toast.makeText(getActivity(), "Enter the date", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(start_meter_ET.getText().toString())) {
+                    Toast.makeText(getActivity(), "Enter the start meter", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(end_meter_ET.getText().toString())) {
+                    Toast.makeText(getActivity(), "Enter the end meter", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                int selectedOragnizationType = Integer.valueOf(((CommonStruct) organization_type_SP.getSelectedItem()).getId());
+
+
+                if(selectedOragnizationType == 3) {
+                    if (TextUtils.isEmpty(organization_ET.getText().toString())) {
+                        Toast.makeText(getActivity(), "Enter the organization", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+
+                if (TextUtils.isEmpty(location_ET.getText().toString())) {
+                    Toast.makeText(getActivity(), "Enter the location", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(purpose_ET.getText().toString())) {
+                    Toast.makeText(getActivity(), "Enter the purpose", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(outcome_ET.getText().toString())) {
+                    Toast.makeText(getActivity(), "Enter the outcome", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(contact_person_ET.getText().toString())) {
+                    Toast.makeText(getActivity(), "Enter the contact person", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(contact_person_number_ET.getText().toString())) {
+                    Toast.makeText(getActivity(), "Enter the contact person number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                reportOrganizationalVisit();
+
                 break;
         }
+    }
+
+    private void reportOrganizationalVisit() {
+        reportOrganizationalVisitStatusAlert = new ProgressDialog(getActivity());
+        reportOrganizationalVisitStatusAlert.setTitle("Reporting Organizational Visit...");
+        reportOrganizationalVisitStatusAlert.setMessage("Please wait while the organizational visit is being reported.");
+        reportOrganizationalVisitStatusAlert.setCancelable(false);
+        reportOrganizationalVisitStatusAlert.show();
+
+        String url = "https://www.randeepa.cloud/android-api6/organizational_visit";
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                reportOrganizationalVisitStatusAlert.dismiss();
+                try {
+                    JSONObject reportOrganizationalVisitRes = new JSONObject(response);
+                    boolean reportOrganizationalVisitSuccess = Boolean.parseBoolean(reportOrganizationalVisitRes.getString("status"));
+                    String reportOrganizationalVisitMessage = reportOrganizationalVisitRes.getString("message");
+
+                    if(reportOrganizationalVisitSuccess) {
+
+                        reportOrganizationalVisitStatusAlert = new AlertDialog.Builder(getActivity()).create();
+                        reportOrganizationalVisitStatusAlert.setTitle("Organizational visit reported successfully");
+                        reportOrganizationalVisitStatusAlert.setMessage(reportOrganizationalVisitMessage);
+                        reportOrganizationalVisitStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        reportOrganizationalVisitStatusAlert.show();
+
+                    } else {
+                        reportOrganizationalVisitStatusAlert = new AlertDialog.Builder(getActivity()).create();
+                        reportOrganizationalVisitStatusAlert.setTitle("Failed to report organizationl visit");
+                        reportOrganizationalVisitStatusAlert.setMessage(reportOrganizationalVisitMessage);
+                        reportOrganizationalVisitStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        reportOrganizationalVisitStatusAlert.show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                reportOrganizationalVisitStatusAlert.dismiss();
+                error.printStackTrace();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("username", userDetails.getString("username", null));
+                params.put("api", userDetails.getString("api", null));
+                params.put("region", userDetails.getString("region", null));
+                params.put("territory", userDetails.getString("territory", null));
+                params.put("date", date_ET.getText().toString());
+                params.put("start_meter", start_meter_ET.getText().toString());
+                params.put("end_meter", end_meter_ET.getText().toString());
+
+                int selectedOragnizationType = Integer.valueOf(((CommonStruct) organization_type_SP.getSelectedItem()).getId());
+
+                params.put("organization_type_id", String.valueOf(selectedOragnizationType));
+
+                if(selectedOragnizationType == 3) {
+                    params.put("organization_name", organization_ET.getText().toString());
+                    params.put("organization_name_fk", String.valueOf(1));
+                } else {
+                    params.put("organization_name", "");
+                    params.put("organization_name_fk", ((CommonStruct) organization_SP.getSelectedItem()).getId());
+                }
+
+                params.put("location", location_ET.getText().toString());
+                params.put("purpose", purpose_ET.getText().toString());
+                params.put("outcome", outcome_ET.getText().toString());
+                params.put("contact_person", contact_person_ET.getText().toString());
+                params.put("contact_number", contact_person_number_ET.getText().toString());
+                params.put("latitude", "0.0");
+                params.put("longitude", "0.0");
+                params.put("stocks", stocksTableValues().toString());
+                params.put("inquiries", inquiriesTableValues().toString());
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+
+        mQueue.add(request);
+    }
+
+    private JSONArray stocksTableValues() {
+        JSONArray stocksArray = new JSONArray();
+
+        if(stocks_TL.getChildCount() == 1) {
+            return stocksArray;
+        } else {
+            for(int i = 1; i < stocks_TL.getChildCount(); i++) {
+                TableRow stocksTableRow = (TableRow) stocks_TL.getChildAt(i);
+
+                JSONObject stockObj = new JSONObject();
+
+                Spinner model_SP_STOCKS_TBL = (Spinner) stocksTableRow.getChildAt(0);
+                EditText chassis_no_ET_STOCKS_TBL = (EditText) stocksTableRow.getChildAt(1);
+
+                try {
+                    stockObj.put("model_id", ((CommonStruct) model_SP_STOCKS_TBL.getSelectedItem()).getId());
+                    stockObj.put("chassis_no", chassis_no_ET_STOCKS_TBL.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                stocksArray.put(stockObj);
+            }
+
+            return stocksArray;
+        }
+
+    }
+
+    private JSONArray inquiriesTableValues() {
+        JSONArray inquiriesArray = new JSONArray();
+
+        if(inquiries_TL.getChildCount() == 1) {
+            return inquiriesArray;
+        } else {
+            for(int i = 1; i < inquiries_TL.getChildCount(); i++) {
+                TableRow inquiriesTableRow = (TableRow) inquiries_TL.getChildAt(i);
+
+                JSONObject inquiryObj = new JSONObject();
+
+                TextView name_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(0);
+                TextView nic_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(1);
+                TextView contact_no_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(2);
+                Spinner model_SP_INQUIRY_TBL = (Spinner) inquiriesTableRow.getChildAt(3);
+                TextView address_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(4);
+                TextView inquiry_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(5);
+
+                try {
+
+                    inquiryObj.put("customer_name", name_ET_INQUIRY_TBL.getText().toString());
+                    inquiryObj.put("customer_nic", nic_ET_INQUIRY_TBL.getText().toString());
+                    inquiryObj.put("customer_telephone", contact_no_ET_INQUIRY_TBL.getText().toString());
+                    inquiryObj.put("model", ((CommonStruct) model_SP_INQUIRY_TBL.getSelectedItem()).getId());
+                    inquiryObj.put("customer_address", address_ET_INQUIRY_TBL.getText().toString());
+                    inquiryObj.put("inquiry", inquiry_ET_INQUIRY_TBL.getText().toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                inquiriesArray.put(inquiryObj);
+            }
+
+            return inquiriesArray;
+        }
+
     }
 
     private int validateStocksTable() {
