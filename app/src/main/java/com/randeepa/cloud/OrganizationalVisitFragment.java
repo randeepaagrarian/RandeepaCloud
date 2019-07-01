@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -31,8 +36,10 @@ import com.randeepa.cloud.structs.CommonStruct;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,8 +68,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
 
     private ProgressDialog organizationTypeDialog;
     private ProgressDialog organizationDialog;
-    private ProgressDialog addStockDialog;
-    private ProgressDialog addInquiryDialog;
+    private ProgressDialog loadingModelsDialog;
 
     private ArrayList<CommonStruct> organizationTypes;
     private ArrayList<CommonStruct> organizations;
@@ -73,6 +79,9 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
     private RequestQueue mQueue;
 
     private SharedPreferences userDetails;
+
+    private TableLayout stocks_TL;
+    private TableLayout inquiries_TL;
 
     int spinnerCheck = 0;
 
@@ -113,7 +122,14 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
         add_inquiry_BT = organizationalVisit.findViewById(R.id.add_inquiry_BT);
         report_organizational_visit_BT = organizationalVisit.findViewById(R.id.report_organizational_visit_BT);
 
+        stocks_TL = organizationalVisit.findViewById(R.id.stocks_TL);
+        inquiries_TL = organizationalVisit.findViewById(R.id.inquiries_TL);
+
         add_stock_BT.setOnClickListener(this);
+        add_inquiry_BT.setOnClickListener(this);
+        report_organizational_visit_BT.setOnClickListener(this);
+
+        models = new ArrayList<>();
 
         return organizationalVisit;
     }
@@ -132,8 +148,162 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
                 datePickerDialog.show();
                 break;
             case R.id.add_stock_BT:
-                
+
+                final TableRow stocksRow = new TableRow(getActivity());
+
+                Spinner model_SP_STOCKS_TBL = new Spinner(getActivity());
+
+                loadModels(model_SP_STOCKS_TBL);
+
+                EditText chassis_no_ET_STOCKS_TBL = new EditText(getActivity());
+                chassis_no_ET_STOCKS_TBL.setHint("NLXXXXXX");
+
+                Button remove_BT_STOCKS_TBL = new Button(getActivity());
+                remove_BT_STOCKS_TBL.setText("Remove");
+
+                remove_BT_STOCKS_TBL.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        stocks_TL.removeView(stocksRow);
+                        stocksRow.removeAllViews();
+                    }
+                });
+
+                stocksRow.addView(model_SP_STOCKS_TBL);
+                stocksRow.addView(chassis_no_ET_STOCKS_TBL);
+                stocksRow.addView(remove_BT_STOCKS_TBL);
+
+                stocks_TL.addView(stocksRow);
+
                 break;
+            case R.id.add_inquiry_BT:
+
+                final TableRow inquiryRow = new TableRow(getActivity());
+
+                EditText name_ET_INQUIRY_TBL = new EditText(getActivity());
+                name_ET_INQUIRY_TBL.setHint("Nimal Bandara");
+
+                EditText nic_ET_INQUIRY_TBL = new EditText(getActivity());
+                nic_ET_INQUIRY_TBL.setHint("000000000v");
+
+                EditText contact_no_ET_INQUIRY_TBL = new EditText(getActivity());
+                contact_no_ET_INQUIRY_TBL.setHint("0777777777");
+
+                Spinner model_SP_INQUIRY_TBL = new Spinner(getActivity());
+
+                loadModels(model_SP_INQUIRY_TBL);
+
+                EditText address_ET_INQUIRY_TBL = new EditText(getActivity());
+                address_ET_INQUIRY_TBL.setHint("No: 1598, Polonnaruwa");
+
+                EditText inquiry_ET_INQUIRY_TBL = new EditText(getActivity());
+                inquiry_ET_INQUIRY_TBL.setHint("Price, capacity");
+
+
+                Button remove_BT_INQUIRY_TBL = new Button(getActivity());
+                remove_BT_INQUIRY_TBL.setText("Remove");
+
+                remove_BT_INQUIRY_TBL.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        inquiries_TL.removeView(inquiryRow);
+                        inquiryRow.removeAllViews();
+                    }
+                });
+
+                inquiryRow.addView(name_ET_INQUIRY_TBL);
+                inquiryRow.addView(nic_ET_INQUIRY_TBL);
+                inquiryRow.addView(contact_no_ET_INQUIRY_TBL);
+                inquiryRow.addView(model_SP_INQUIRY_TBL);
+                inquiryRow.addView(address_ET_INQUIRY_TBL);
+                inquiryRow.addView(inquiry_ET_INQUIRY_TBL);
+                inquiryRow.addView(remove_BT_INQUIRY_TBL);
+
+                inquiries_TL.addView(inquiryRow);
+
+                break;
+            case R.id.report_organizational_visit_BT:
+
+                int validateStocksTable = validateStocksTable();
+                int validateInquiriesTable = validateInquiries();
+
+                if(validateStocksTable == 1) {
+                    Toast.makeText(getActivity(), "Enter the chassis numbers", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(validateStocksTable == 2) {
+                    Toast.makeText(getActivity(), "Duplicate chassis numbers", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(validateInquiriesTable == 1) {
+                    Toast.makeText(getActivity(), "Complete the inquiries table", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                break;
+        }
+    }
+
+    private int validateStocksTable() {
+        if(stocks_TL.getChildCount() == 1) {
+            return 0;
+        } else {
+
+            String[] chassisNumbers = new String[stocks_TL.getChildCount() - 1];
+
+            for(int i = 1; i < stocks_TL.getChildCount(); i++) {
+
+                TableRow stocksTableRow = (TableRow) stocks_TL.getChildAt(i);
+
+                TextView chassis_no_ET_STOCKS_TBL = (TextView) stocksTableRow.getChildAt(1);
+
+                String chassis_no_TBL = chassis_no_ET_STOCKS_TBL.getText().toString();
+
+                if(TextUtils.isEmpty(chassis_no_TBL)) {
+                    return 1;
+                }
+
+                if(Arrays.asList(chassisNumbers).contains(chassis_no_TBL)) {
+                    return 2;
+                } else {
+                    chassisNumbers[i-1] = chassis_no_TBL;
+                }
+
+            }
+
+            return 0;
+        }
+    }
+
+    private int validateInquiries() {
+        if(inquiries_TL.getChildCount() == 1) {
+            return 0;
+        } else {
+
+            for(int i = 1; i < inquiries_TL.getChildCount(); i++) {
+
+                TableRow inquiriesTableRow = (TableRow) inquiries_TL.getChildAt(i);
+
+                TextView name_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(0);
+                TextView nic_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(1);
+                TextView contact_no_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(2);
+                TextView address_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(4);
+                TextView inquiry_ET_INQUIRY_TBL = (TextView) inquiriesTableRow.getChildAt(5);
+
+                if(TextUtils.isEmpty(name_ET_INQUIRY_TBL.getText().toString())
+                    || TextUtils.isEmpty(nic_ET_INQUIRY_TBL.getText().toString())
+                    || TextUtils.isEmpty(contact_no_ET_INQUIRY_TBL.getText().toString())
+                    || TextUtils.isEmpty(address_ET_INQUIRY_TBL.getText().toString())
+                    || TextUtils.isEmpty(inquiry_ET_INQUIRY_TBL.getText().toString())) {
+                    return 1;
+                }
+
+
+            }
+
+            return 0;
         }
     }
 
@@ -223,6 +393,70 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
                     params.put("organization_type", ((CommonStruct) organization_type_SP.getSelectedItem()).getId());
                 }
 
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+
+        mQueue.add(request);
+    }
+
+    private void loadModels(final Spinner spinner) {
+
+        String url = "https://www.randeepa.cloud/android-api6/sale_report_models";
+
+        loadingModelsDialog = new ProgressDialog(getActivity());
+        loadingModelsDialog.setTitle("Loading Models...");
+        loadingModelsDialog.setMessage("Please wait while models are loaded.");
+        loadingModelsDialog.setCancelable(false);
+        loadingModelsDialog.show();
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject spinnerRes = new JSONObject(response);
+
+                    boolean validResponse = Boolean.parseBoolean(spinnerRes.getString("status"));
+
+                    if (validResponse) {
+                        JSONArray spinnerResArray = spinnerRes.getJSONArray("message");
+                        for (int i = 0; i < spinnerResArray.length(); i++) {
+                            JSONObject spinnerResArrayItem = spinnerResArray.getJSONObject(i);
+
+                                    models.add(new CommonStruct(spinnerResArrayItem.getString("id"), spinnerResArrayItem.getString("name")));
+                        }
+
+                                ArrayAdapter<CommonStruct> showroomDealerArrayAdapter = new ArrayAdapter<CommonStruct>(getActivity(), android.R.layout.simple_spinner_dropdown_item, models);
+                                spinner.setAdapter(showroomDealerArrayAdapter);
+                        loadingModelsDialog.dismiss();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("username", userDetails.getString("username", null));
+                params.put("api", userDetails.getString("api", null));
+                params.put("region", userDetails.getString("region", null));
+                params.put("territory", userDetails.getString("territory", null));
                 return params;
             }
 

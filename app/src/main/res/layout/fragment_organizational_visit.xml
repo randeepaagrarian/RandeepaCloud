@@ -101,7 +101,7 @@
                 android:id="@+id/purpose_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Collect security document" />
+                android:hint="Get the DO" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                 android:id="@+id/outcome_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Security document collected" />
+                android:hint="DO collected" />
 
             <TextView
                 android:layout_width="match_parent"
