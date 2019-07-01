@@ -54,7 +54,32 @@
                 android:hint="1050"
                 android:inputType="number" />
 
-            <!-- Organizational type spinner and relevant spinner or Edit Text for other should come here -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Organization Type" />
+
+            <Spinner
+                android:id="@+id/organization_type_SP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Organization" />
+
+            <Spinner
+                android:id="@+id/organization_SP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/organization_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Govi Jana Sewa"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="match_parent"
