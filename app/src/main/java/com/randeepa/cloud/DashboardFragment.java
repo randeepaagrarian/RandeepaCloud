@@ -471,7 +471,7 @@ public class DashboardFragment extends Fragment {
     private void loadRecentExpenseClaims() {
 
         loadExpenseClaimsDialog = new ProgressDialog(getActivity());
-        loadExpenseClaimsDialog.setTitle("Loading Recent Expense Claims Visits");
+        loadExpenseClaimsDialog.setTitle("Loading Recent Expense Claims");
         loadExpenseClaimsDialog.setMessage("Please wait while recent expense claims are loaded");
         loadExpenseClaimsDialog.setCancelable(false);
         loadExpenseClaimsDialog.show();
