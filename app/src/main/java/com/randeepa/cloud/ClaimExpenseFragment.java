@@ -152,6 +152,11 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
                     return;
                 }
 
+                if(validateExpenseItemsTable == 2) {
+                    Toast.makeText(getActivity(), "Enter the expenses", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 claimExpense();
 
                 break;
@@ -275,7 +280,7 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
 
     private int validateExpenseItemsTable() {
         if(expense_items_TL.getChildCount() == 1) {
-            return 0;
+            return 2;
         } else {
 
             for(int i = 1; i < expense_items_TL.getChildCount(); i++) {
