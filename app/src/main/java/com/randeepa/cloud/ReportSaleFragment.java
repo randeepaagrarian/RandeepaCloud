@@ -263,7 +263,8 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -311,6 +312,7 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
                         reportSaleStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         reportSaleStatusAlert.setTitle("Sale reported successfully");
                         reportSaleStatusAlert.setMessage(reportSaleMessage);
+                        reportSaleStatusAlert.setIcon(getResources().getDrawable(R.drawable.success_icon));
                         reportSaleStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -324,6 +326,7 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
                         reportSaleStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         reportSaleStatusAlert.setTitle("Failed to report sale");
                         reportSaleStatusAlert.setMessage(reportSaleMessage);
+                        reportSaleStatusAlert.setIcon(getResources().getDrawable(R.drawable.failure_icon));
                         reportSaleStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -342,8 +345,8 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                reportingSaleDialog.dismiss();
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -379,6 +382,8 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
             }
         };
 
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         mQueue.add(request);
     }
 
@@ -407,7 +412,6 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY_RESPONSE_ERROR", String.valueOf(error));
                 signOut();
                 Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }

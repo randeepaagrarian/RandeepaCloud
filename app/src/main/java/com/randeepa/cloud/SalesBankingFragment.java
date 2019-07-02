@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -246,7 +244,8 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -267,11 +266,7 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
             }
         };
 
-        // SENDING REQUEST TWICE NEEDS TO BE FIXED
-
-        request.setShouldCache(false);
-
-        request.setRetryPolicy(new DefaultRetryPolicy(0, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mQueue.add(request);
     }
@@ -300,6 +295,7 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
                         reportSalesBankingStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         reportSalesBankingStatusAlert.setTitle("Sales banking reported successfully");
                         reportSalesBankingStatusAlert.setMessage(reportSalesBankingMessage);
+                        reportSalesBankingStatusAlert.setIcon(getResources().getDrawable(R.drawable.success_icon));
                         reportSalesBankingStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -313,6 +309,7 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
                         reportSalesBankingStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         reportSalesBankingStatusAlert.setTitle("Failed to report sales banking");
                         reportSalesBankingStatusAlert.setMessage(reportSalesBankingMessage);
+                        reportSalesBankingStatusAlert.setIcon(getResources().getDrawable(R.drawable.failure_icon));
                         reportSalesBankingStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -331,8 +328,8 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                reportSalesBankingStatusAlert.dismiss();
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -400,7 +397,6 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY_RESPONSE_ERROR", String.valueOf(error));
                 signOut();
                 Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }

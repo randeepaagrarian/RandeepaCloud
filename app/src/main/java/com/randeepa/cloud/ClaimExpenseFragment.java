@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -189,6 +190,7 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
                         claimExpenseStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         claimExpenseStatusAlert.setTitle("Expense Claimed Successfully");
                         claimExpenseStatusAlert.setMessage(claimExpenseMessage);
+                        claimExpenseStatusAlert.setIcon(getResources().getDrawable(R.drawable.success_icon));
                         claimExpenseStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -202,6 +204,7 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
                         claimExpenseStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         claimExpenseStatusAlert.setTitle("Failed to Claim Expense");
                         claimExpenseStatusAlert.setMessage(claimExpenseMessage);
+                        claimExpenseStatusAlert.setIcon(getResources().getDrawable(R.drawable.failure_icon));
                         claimExpenseStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -220,8 +223,8 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                claimExpenseStatusAlert.dismiss();
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -246,6 +249,8 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
                 return params;
             }
         };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mQueue.add(request);
     }
@@ -345,7 +350,8 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -394,7 +400,6 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY_RESPONSE_ERROR", String.valueOf(error));
                 signOut();
                 Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
