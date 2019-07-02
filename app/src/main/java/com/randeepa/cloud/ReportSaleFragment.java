@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -86,6 +87,8 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
         mQueue = Volley.newRequestQueue(getActivity());
 
         userDetails = getActivity().getSharedPreferences("user_details", MODE_PRIVATE);
+
+        validateAPIKey();
 
         date_ET = reportSale.findViewById(R.id.date_ET);
         date_ET.setText(utils.getYear() + "-" + utils.getMonth() + "-" + utils.getDay());
@@ -377,5 +380,64 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
         };
 
         mQueue.add(request);
+    }
+
+    private void validateAPIKey() {
+
+        String url = "https://www.randeepa.cloud/android-api6/validate_api_key";
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject apiKeyRes = new JSONObject(response);
+                    boolean apiKeyValid = Boolean.parseBoolean(apiKeyRes.getString("status"));
+
+                    if(apiKeyValid) {
+                    } else {
+                        signOut();
+                        Toast.makeText(getActivity(), "Please sign in again", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("VOLLEY_RESPONSE_ERROR", String.valueOf(error));
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("username", userDetails.getString("username", null));
+                params.put("api", userDetails.getString("api", null));
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };
+
+        mQueue.add(request);
+    }
+
+    private void signOut() {
+        SharedPreferences.Editor userEditor = userDetails.edit();
+        userEditor.clear();
+        userEditor.commit();
+
+        Intent mainActivity = new Intent(getActivity(), MainActivity.class);
+        startActivity(mainActivity);
+
     }
 }
