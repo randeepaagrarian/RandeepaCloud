@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -183,6 +184,9 @@ public class SparePartsBankingFragment extends Fragment implements View.OnClickL
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+                Log.d("SPARE_PARTS_RES", response);
+
                 reportSparePartsBankingStatusAlert.dismiss();
                 try {
                     JSONObject reportSparePartsBankingRes = new JSONObject(response);
@@ -226,6 +230,9 @@ public class SparePartsBankingFragment extends Fragment implements View.OnClickL
             @Override
             public void onErrorResponse(VolleyError error) {
                 reportSparePartsBankingStatusAlert.dismiss();
+
+                Log.d("RES_ERROR", error.toString());
+
                 error.printStackTrace();
             }
         }){
@@ -261,6 +268,8 @@ public class SparePartsBankingFragment extends Fragment implements View.OnClickL
                 return params;
             }
         };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mQueue.add(request);
     }

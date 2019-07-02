@@ -370,6 +370,8 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
             }
         };
 
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         mQueue.add(request);
     }
 
