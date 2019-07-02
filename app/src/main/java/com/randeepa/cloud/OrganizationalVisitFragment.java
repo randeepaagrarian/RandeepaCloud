@@ -645,6 +645,8 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
         loadingModelsDialog.setCancelable(false);
         loadingModelsDialog.show();
 
+        models.clear();
+
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -661,8 +663,8 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
                                     models.add(new CommonStruct(spinnerResArrayItem.getString("id"), spinnerResArrayItem.getString("name")));
                         }
 
-                                ArrayAdapter<CommonStruct> showroomDealerArrayAdapter = new ArrayAdapter<CommonStruct>(getActivity(), android.R.layout.simple_spinner_dropdown_item, models);
-                                spinner.setAdapter(showroomDealerArrayAdapter);
+                        ArrayAdapter<CommonStruct> showroomDealerArrayAdapter = new ArrayAdapter<CommonStruct>(getActivity(), android.R.layout.simple_spinner_dropdown_item, models);
+                        spinner.setAdapter(showroomDealerArrayAdapter);
                         loadingModelsDialog.dismiss();
                     }
 
