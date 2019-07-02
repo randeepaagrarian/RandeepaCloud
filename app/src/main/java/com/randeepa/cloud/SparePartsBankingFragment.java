@@ -198,6 +198,7 @@ public class SparePartsBankingFragment extends Fragment implements View.OnClickL
                         reportSparePartsBankingStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         reportSparePartsBankingStatusAlert.setTitle("Spare parts banking reported successfully");
                         reportSparePartsBankingStatusAlert.setMessage(reportSparePartsBankingMessage);
+                        reportSparePartsBankingStatusAlert.setIcon(getResources().getDrawable(R.drawable.success_icon));
                         reportSparePartsBankingStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -211,6 +212,7 @@ public class SparePartsBankingFragment extends Fragment implements View.OnClickL
                         reportSparePartsBankingStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         reportSparePartsBankingStatusAlert.setTitle("Failed to report spare parts banking");
                         reportSparePartsBankingStatusAlert.setMessage(reportSparePartsBankingMessage);
+                        reportSparePartsBankingStatusAlert.setIcon(getResources().getDrawable(R.drawable.failure_icon));
                         reportSparePartsBankingStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -229,11 +231,8 @@ public class SparePartsBankingFragment extends Fragment implements View.OnClickL
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                reportSparePartsBankingStatusAlert.dismiss();
-
-                Log.d("RES_ERROR", error.toString());
-
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -299,7 +298,6 @@ public class SparePartsBankingFragment extends Fragment implements View.OnClickL
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY_RESPONSE_ERROR", String.valueOf(error));
                 signOut();
                 Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }

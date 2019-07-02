@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -146,7 +146,7 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
                 address_ET_INQUIRY_TBL.setHint("No: 1598, Polonnaruwa");
 
                 EditText inquiry_ET_INQUIRY_TBL = new EditText(getActivity());
-                inquiry_ET_INQUIRY_TBL.setHint("Price, capacity");
+                inquiry_ET_INQUIRY_TBL.setHint("Capacity, fuel");
 
 
                 Button remove_BT_INQUIRY_TBL = new Button(getActivity());
@@ -226,8 +226,9 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
                     if(reportFieldVisitSuccess) {
 
                         reportFieldVisitStatusAlert = new AlertDialog.Builder(getActivity()).create();
-                        reportFieldVisitStatusAlert.setTitle("Organizational visit reported successfully");
+                        reportFieldVisitStatusAlert.setTitle("Field visit reported successfully");
                         reportFieldVisitStatusAlert.setMessage(reportFieldVisitMessage);
+                        reportFieldVisitStatusAlert.setIcon(getResources().getDrawable(R.drawable.success_icon));
                         reportFieldVisitStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -239,8 +240,9 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
 
                     } else {
                         reportFieldVisitStatusAlert = new AlertDialog.Builder(getActivity()).create();
-                        reportFieldVisitStatusAlert.setTitle("Failed to report organizationl visit");
+                        reportFieldVisitStatusAlert.setTitle("Failed to report field visit");
                         reportFieldVisitStatusAlert.setMessage(reportFieldVisitMessage);
+                        reportFieldVisitStatusAlert.setIcon(getResources().getDrawable(R.drawable.failure_icon));
                         reportFieldVisitStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -259,8 +261,8 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                reportFieldVisitStatusAlert.dismiss();
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -288,6 +290,8 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
                 return params;
             }
         };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mQueue.add(request);
     }
@@ -413,7 +417,8 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -477,7 +482,8 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -526,7 +532,6 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY_RESPONSE_ERROR", String.valueOf(error));
                 signOut();
                 Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }

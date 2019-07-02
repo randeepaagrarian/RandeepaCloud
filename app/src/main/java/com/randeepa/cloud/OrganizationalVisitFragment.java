@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -39,7 +40,6 @@ import com.randeepa.cloud.structs.CommonStruct;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -203,7 +203,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
                 address_ET_INQUIRY_TBL.setHint("No: 1598, Polonnaruwa");
 
                 EditText inquiry_ET_INQUIRY_TBL = new EditText(getActivity());
-                inquiry_ET_INQUIRY_TBL.setHint("Price, capacity");
+                inquiry_ET_INQUIRY_TBL.setHint("Capacity, fuel");
 
 
                 Button remove_BT_INQUIRY_TBL = new Button(getActivity());
@@ -328,6 +328,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
                         reportOrganizationalVisitStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         reportOrganizationalVisitStatusAlert.setTitle("Organizational visit reported successfully");
                         reportOrganizationalVisitStatusAlert.setMessage(reportOrganizationalVisitMessage);
+                        reportOrganizationalVisitStatusAlert.setIcon(getResources().getDrawable(R.drawable.success_icon));
                         reportOrganizationalVisitStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -341,6 +342,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
                         reportOrganizationalVisitStatusAlert = new AlertDialog.Builder(getActivity()).create();
                         reportOrganizationalVisitStatusAlert.setTitle("Failed to report organizationl visit");
                         reportOrganizationalVisitStatusAlert.setMessage(reportOrganizationalVisitMessage);
+                        reportOrganizationalVisitStatusAlert.setIcon(getResources().getDrawable(R.drawable.failure_icon));
                         reportOrganizationalVisitStatusAlert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -359,8 +361,8 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                reportOrganizationalVisitStatusAlert.dismiss();
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -405,6 +407,8 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
                 return params;
             }
         };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(20000, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mQueue.add(request);
     }
@@ -609,7 +613,8 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -680,7 +685,8 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+                signOut();
+                Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -758,7 +764,6 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("VOLLEY_RESPONSE_ERROR", String.valueOf(error));
                 signOut();
                 Toast.makeText(getActivity(), "Cannot reach cloud servers.", Toast.LENGTH_SHORT).show();
             }
