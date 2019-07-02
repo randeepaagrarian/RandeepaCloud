@@ -1,12 +1,284 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Organizational Visit"
-        android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Organizational Visit"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date" />
+
+            <EditText
+                android:id="@+id/date_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Meter" />
+
+            <EditText
+                android:id="@+id/start_meter_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="1000"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="End Meter" />
+
+            <EditText
+                android:id="@+id/end_meter_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="1050"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Organization Type" />
+
+            <Spinner
+                android:id="@+id/organization_type_SP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Organization" />
+
+            <Spinner
+                android:id="@+id/organization_SP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/organization_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Govi Jana Sewa"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location" />
+
+            <EditText
+                android:id="@+id/location_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Bendiwewa" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Purpose" />
+
+            <EditText
+                android:id="@+id/purpose_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Get the DO" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Outcome" />
+
+            <EditText
+                android:id="@+id/outcome_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="DO collected" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact Person" />
+
+            <EditText
+                android:id="@+id/contact_person_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Mr Silva" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact Person Number" />
+
+            <EditText
+                android:id="@+id/contact_person_number_ET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="0777777777"
+                android:inputType="number" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stocks" />
+
+                <Button
+                    android:id="@+id/add_stock_BT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add" />
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableLayout
+                    android:id="@+id/stocks_TL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="Model" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="Chassis Number" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="Remove" />
+
+                    </TableRow>
+
+                </TableLayout>
+
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Inquiries" />
+
+                <Button
+                    android:id="@+id/add_inquiry_BT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add" />
+
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableLayout
+                    android:id="@+id/inquiries_TL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="Name" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="NIC" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="Contact Number" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="Model" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="Address" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="Inquiry" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:text="Remove" />
+
+                    </TableRow>
+
+                </TableLayout>
+
+            </HorizontalScrollView>
+
+            <Button
+                android:id="@+id/report_organizational_visit_BT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Report organizational visit" />
+
+        </LinearLayout>
+
+    </ScrollView>
 </RelativeLayout>

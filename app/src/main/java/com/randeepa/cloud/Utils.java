@@ -4,7 +4,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.util.Calendar;
+
 public class Utils {
+
+    Calendar calendar;
+
+    Utils() {
+        calendar = Calendar.getInstance();
+    }
 
     public boolean isInternetAvailable(Context context) {
         ConnectivityManager connectivityManager =
@@ -18,4 +26,20 @@ public class Utils {
 
         return isConnected;
     }
+
+    public int getDay() {
+        return calendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public int getMonth() {
+        int month = calendar.get(Calendar.MONTH);
+        month++;
+        return month;
+    }
+
+    public int getYear() {
+        return calendar.get(Calendar.YEAR);
+    }
+
+
 }
