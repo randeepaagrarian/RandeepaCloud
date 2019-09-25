@@ -2,6 +2,12 @@
 *.apk
 *.ap_
 
+# Relase files
+app/release
+
+# macOS .DS_STORE files
+*.DS_STORE
+
 # Files for the ART/Dalvik VM
 *.dex
 

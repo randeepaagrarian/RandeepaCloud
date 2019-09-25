@@ -113,6 +113,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             case R.id.nav_field_visit:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FieldVisitFragment()).commit();
                 break;
+            case R.id.nav_hirepurchase_banking:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HirePurchaseBankingFragment()).commit();
+                break;
             case R.id.nav_claim_expense:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ClaimExpenseFragment()).commit();
                 break;

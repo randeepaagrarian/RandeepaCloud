@@ -44,6 +44,14 @@
                     android:title="Field Visit" />
             </menu>
         </item>
+        <item android:title="Hire Purcahse">
+            <menu>
+                <item
+                    android:id="@+id/nav_hirepurchase_banking"
+                    android:icon="@drawable/ic_money"
+                    android:title="Hire Purchase Banking"/>
+            </menu>
+        </item>
         <item android:title="Expenses">
             <menu>
                 <item
