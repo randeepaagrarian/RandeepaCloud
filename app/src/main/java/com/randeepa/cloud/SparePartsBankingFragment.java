@@ -34,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.randeepa.cloud.api.API;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -179,7 +180,7 @@ public class SparePartsBankingFragment extends Fragment implements View.OnClickL
         reportSparePartsBankingStatusAlert.setCancelable(false);
         reportSparePartsBankingStatusAlert.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/spare_parts_banking";
+        String url = new API().getApiLink() + "/spare_parts_banking";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -275,7 +276,7 @@ public class SparePartsBankingFragment extends Fragment implements View.OnClickL
 
     private void validateAPIKey() {
 
-        String url = "https://www.randeepa.cloud/android-api6/validate_api_key";
+        String url = new API().getApiLink() + "/validate_api_key";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

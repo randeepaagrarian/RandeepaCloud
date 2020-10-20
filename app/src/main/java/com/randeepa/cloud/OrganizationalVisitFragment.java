@@ -35,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.randeepa.cloud.api.API;
 import com.randeepa.cloud.structs.CommonStruct;
 
 import org.json.JSONArray;
@@ -312,7 +313,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
         reportOrganizationalVisitStatusAlert.setCancelable(false);
         reportOrganizationalVisitStatusAlert.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/organizational_visit";
+        String url = new API().getApiLink() + "/organizational_visit";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -548,7 +549,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
 
         switch (name) {
             case "organizationTypes":
-                url = "https://www.randeepa.cloud/android-api6/organizational_visit_organization_type";
+                url = new API().getApiLink() + "/organizational_visit_organization_type";
                 organizationTypeDialog = new ProgressDialog(getActivity());
                 organizationTypeDialog.setTitle("Loading Organizational Types List...");
                 organizationTypeDialog.setMessage("Please wait while the organizational types list is loaded.");
@@ -556,7 +557,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
                 organizationTypeDialog.show();
                 break;
             case "organizations":
-                url = "https://www.randeepa.cloud/android-api6/get_organizations";
+                url = new API().getApiLink() + "/get_organizations";
                 organizationDialog = new ProgressDialog(getActivity());
                 organizationDialog.setTitle("Loading Organizations List...");
                 organizationDialog.setMessage("Please wait while the organizations list is loaded.");
@@ -645,7 +646,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
 
     private void loadModels(final Spinner spinner) {
 
-        String url = "https://www.randeepa.cloud/android-api6/sale_report_models";
+        String url = new API().getApiLink() + "/sale_report_models";
 
         loadingModelsDialog = new ProgressDialog(getActivity());
         loadingModelsDialog.setTitle("Loading Models...");
@@ -741,7 +742,7 @@ public class OrganizationalVisitFragment extends Fragment implements View.OnClic
 
     private void validateAPIKey() {
 
-        String url = "https://www.randeepa.cloud/android-api6/validate_api_key";
+        String url = new API().getApiLink() + "/validate_api_key";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

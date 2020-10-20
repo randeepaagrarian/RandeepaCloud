@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.randeepa.cloud.api.API;
 import com.randeepa.cloud.structs.CommonStruct;
 
 import org.json.JSONArray;
@@ -184,7 +184,7 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
 
         switch (name) {
             case "showroomDealer":
-                url = "https://www.randeepa.cloud/android-api6/get_dealers";
+                url = new API().getApiLink() + "/get_dealers";
                 showroomDealerListDialog = new ProgressDialog(getActivity());
                 showroomDealerListDialog.setTitle("Loading Dealer List...");
                 showroomDealerListDialog.setMessage("Please wait while the dealer list is loaded.");
@@ -197,7 +197,7 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
                 modelListDialog.setMessage("Please wait while the model list is loaded.");
                 modelListDialog.setCancelable(false);
                 modelListDialog.show();
-                url = "https://www.randeepa.cloud/android-api6/sale_report_models";
+                url = new API().getApiLink() + "/sale_report_models";
                 break;
             case "saleTypes":
                 saleTypeDialog = new ProgressDialog(getActivity());
@@ -205,7 +205,7 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
                 saleTypeDialog.setMessage("Please wait while the sales types are loaded.");
                 saleTypeDialog.setCancelable(false);
                 saleTypeDialog.show();
-                url = "https://www.randeepa.cloud/android-api6/sale_report_sale_type";
+                url = new API().getApiLink() + "/sale_report_sale_type";
                 break;
         }
 
@@ -296,7 +296,7 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
         reportingSaleDialog.setCancelable(false);
         reportingSaleDialog.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/report_sale";
+        String url = new API().getApiLink() + "/report_sale";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -389,7 +389,7 @@ public class ReportSaleFragment extends Fragment implements View.OnClickListener
 
     private void validateAPIKey() {
 
-        String url = "https://www.randeepa.cloud/android-api6/validate_api_key";
+        String url = new API().getApiLink() + "/validate_api_key";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

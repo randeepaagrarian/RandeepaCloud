@@ -33,6 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.randeepa.cloud.api.API;
 import com.randeepa.cloud.structs.CommonStruct;
 
 import org.json.JSONArray;
@@ -212,7 +213,7 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
         reportFieldVisitStatusAlert.setCancelable(false);
         reportFieldVisitStatusAlert.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/field_visit";
+        String url = new API().getApiLink() + "/field_visit";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -371,7 +372,7 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
 
         switch (name) {
             case "fieldVisitCriterias":
-                url = "https://www.randeepa.cloud/android-api6/field_visit_criteria";
+                url = new API().getApiLink() + "/field_visit_criteria";
                 fieldVisitCriteriaDialog = new ProgressDialog(getActivity());
                 fieldVisitCriteriaDialog.setTitle("Loading Field Visit Criterias...");
                 fieldVisitCriteriaDialog.setMessage("Please wait while field visit criterias are loaded.");
@@ -444,7 +445,7 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
 
     private void loadModels(final Spinner spinner) {
 
-        String url = "https://www.randeepa.cloud/android-api6/sale_report_models";
+        String url = new API().getApiLink() + "/sale_report_models";
 
         loadingModelsDialog = new ProgressDialog(getActivity());
         loadingModelsDialog.setTitle("Loading Models...");
@@ -509,7 +510,7 @@ public class FieldVisitFragment extends Fragment implements View.OnClickListener
 
     private void validateAPIKey() {
 
-        String url = "https://www.randeepa.cloud/android-api6/validate_api_key";
+        String url = new API().getApiLink() + "/validate_api_key";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

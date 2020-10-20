@@ -35,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.randeepa.cloud.api.API;
 import com.randeepa.cloud.structs.CommonStruct;
 
 import org.json.JSONArray;
@@ -198,7 +199,7 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
 
         switch (name) {
             case "paymentTypes":
-                url = "https://www.randeepa.cloud/android-api6/mac_bank_pay_types";
+                url = new API().getApiLink() + "/mac_bank_pay_types";
                 paymentTypeDialog = new ProgressDialog(getActivity());
                 paymentTypeDialog.setTitle("Loading Payment Types...");
                 paymentTypeDialog.setMessage("Please wait while the dealer list is loaded.");
@@ -279,7 +280,7 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
         reportSalesBankingStatusAlert.setCancelable(false);
         reportSalesBankingStatusAlert.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/machinery_banking";
+        String url = new API().getApiLink() + "/machinery_banking";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -374,7 +375,7 @@ public class SalesBankingFragment extends Fragment implements View.OnClickListen
 
     private void validateAPIKey() {
 
-        String url = "https://www.randeepa.cloud/android-api6/validate_api_key";
+        String url = new API().getApiLink() + "/validate_api_key";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

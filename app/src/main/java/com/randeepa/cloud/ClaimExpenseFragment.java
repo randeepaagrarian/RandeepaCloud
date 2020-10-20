@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.randeepa.cloud.api.API;
 import com.randeepa.cloud.structs.CommonStruct;
 
 import org.json.JSONArray;
@@ -41,7 +41,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -174,7 +173,7 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
         claimExpenseStatusAlert.setCancelable(false);
         claimExpenseStatusAlert.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/claim_expense";
+        String url = new API().getApiLink() + "/claim_expense";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -309,7 +308,7 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
 
     private void loadExpenseTypes(final Spinner spinner) {
 
-        String url = "https://www.randeepa.cloud/android-api6/expense_type";
+        String url = new API().getApiLink() + "/expense_type";
 
         expenseTypesDailog = new ProgressDialog(getActivity());
         expenseTypesDailog.setTitle("Loading Expense Types...");
@@ -377,7 +376,7 @@ public class ClaimExpenseFragment extends Fragment implements View.OnClickListen
 
     private void validateAPIKey() {
 
-        String url = "https://www.randeepa.cloud/android-api6/validate_api_key";
+        String url = new API().getApiLink() + "/validate_api_key";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override

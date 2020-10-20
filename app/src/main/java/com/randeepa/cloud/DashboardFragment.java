@@ -24,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.randeepa.cloud.api.API;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,7 +87,7 @@ public class DashboardFragment extends Fragment {
         loadSalesDialog.setCancelable(false);
         loadSalesDialog.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/recent_sales";
+        String url = new API().getApiLink() + "/recent_sales";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -186,7 +187,7 @@ public class DashboardFragment extends Fragment {
         loadBankingsDialog.setCancelable(false);
         loadBankingsDialog.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/recent_bankings";
+        String url = new API().getApiLink() + "/recent_bankings";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -291,7 +292,7 @@ public class DashboardFragment extends Fragment {
         loadOrganizationalVisitsDialog.setCancelable(false);
         loadOrganizationalVisitsDialog.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/recent_organizational_visits";
+        String url = new API().getApiLink() + "/recent_organizational_visits";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -391,7 +392,7 @@ public class DashboardFragment extends Fragment {
         loadFieldVisitsDialog.setCancelable(false);
         loadFieldVisitsDialog.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/recent_field_visits";
+        String url = new API().getApiLink() + "/recent_field_visits";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -476,7 +477,7 @@ public class DashboardFragment extends Fragment {
         loadExpenseClaimsDialog.setCancelable(false);
         loadExpenseClaimsDialog.show();
 
-        String url = "https://www.randeepa.cloud/android-api6/recent_expense_claims";
+        String url = new API().getApiLink() + "/recent_expense_claims";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -560,7 +561,7 @@ public class DashboardFragment extends Fragment {
 
     private void validateAPIKey() {
 
-        String url = "https://www.randeepa.cloud/android-api6/validate_api_key";
+        String url = new API().getApiLink() + "/validate_api_key";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
