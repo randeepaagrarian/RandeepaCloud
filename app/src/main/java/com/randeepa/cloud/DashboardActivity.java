@@ -120,6 +120,9 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             case R.id.nav_claim_expense:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ClaimExpenseFragment()).commit();
                 break;
+            case R.id.nav_stock_review:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StockReviewFragment()).commit();
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);

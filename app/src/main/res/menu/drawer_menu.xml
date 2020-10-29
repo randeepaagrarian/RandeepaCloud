@@ -20,6 +20,14 @@
                     android:title="Report Sale" />
             </menu>
         </item>
+        <item android:title="Stocks">
+            <menu>
+                <item
+                    android:id="@+id/nav_stock_review"
+                    android:icon="@drawable/ic_check"
+                    android:title="Stock Review" />
+            </menu>
+        </item>
         <item android:title="Banking">
             <menu>
                 <item
